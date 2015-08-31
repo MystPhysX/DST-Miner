@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="r4.1">
+    <folder id="0">
+        <file id="0" name="miningmachine.png" width="600" height="600" pivot_x="0" pivot_y="1"/>
+    </folder>
+    <folder id="1" name="swap_storage">
+        <file id="0" name="swap_storage/swap_storage.png" width="127" height="115" pivot_x="0" pivot_y="1"/>
+    </folder>
+    <entity id="0" name="miningmachine">
+        <animation id="0" name="idle" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="0" z_index="1"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="miningmachine">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" x="-304" y="487"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="swap_storage">
+                <key id="0" spin="0">
+                    <object folder="1" file="0" x="-299.388623" y="200.717703"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="1" name="storage">
+        <animation id="0" name="idle" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="swap_storage">
+                <key id="0" spin="0">
+                    <object folder="1" file="0" x="-63.47541" y="56.918033"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+</spriter_data>
