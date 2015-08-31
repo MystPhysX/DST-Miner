@@ -32,6 +32,7 @@ List of Diggable items (configurable):
 
 
 ZupaleX Currently Working on:
-
+- Backbone of machine prefab lua
+- Widget for the storage
 
 MystPhysX Currently Working on:
