@@ -10,6 +10,9 @@ To-Do:
 
 Ideas:
 - Uses moles as fuel. (lol)
+    - That is a funny idea but also an interesting one! What if it is fueled with regular burnable but a mole would immediatly fill it at max (or a much higher value than regular burnables) ?
+- Make so that the mining machine can jam. In this case you would use a
+- New item : the wrench. Repair the jammed machine. It could have further later if we decide to add more stuffs (and I could use it with my sentry mod to repair it :-))
 
 
 Approved Ideas:
