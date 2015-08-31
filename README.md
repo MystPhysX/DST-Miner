@@ -32,7 +32,11 @@ List of Diggable items (configurable):
 
 
 ZupaleX Currently Working on:
-- Backbone of machine prefab lua
-- Widget for the storage
+Sleeping :-)
 
 MystPhysX Currently Working on:
+
+
+Job Done:
+- Created the basic machine and gave it a "follower" prefab which acts like the storage.
+- Setting up the storage widget. It is configurable (2x2, 2x3, 3x3, 3x4, 4x4). Working for client as well. If a modification is made on the artwork, please just replace the corresponding image file in the export folder by conserving the exact dimension. 
