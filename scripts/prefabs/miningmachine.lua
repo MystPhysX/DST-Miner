@@ -135,7 +135,6 @@ local MMSwidgetparams =
 		issidewidget = false,
 		type = "chest",
 	}
-<<<<<<< HEAD
 	
 for y = ymax, ymin, -1 do
     for x = xmin, xmax do
@@ -182,114 +181,6 @@ local function miningmachine_storagefn()
 	inst.entity:SetPristine()
 
 	if not TheWorld.ismastersim then
-=======
-	
-for y = ymax, ymin, -1 do
-    for x = xmin, xmax do
-        table.insert(MMSwidgetparams.widget.slotpos, Vector3(80 * x - 80 * 2 + 80, 80 * y - 80 * 2 + 80, 0))
-    end
-end
-
-containers.MAXITEMSLOTS = math.max(containers.MAXITEMSLOTS, MMSwidgetparams.widget.slotpos ~= nil and #MMSwidgetparams.widget.slotpos or 0)
-
-local function mywidgetsetup(container, prefab, data)
-    local t = data or params[prefab or container.inst.prefab]
-    if t ~= nil then
-        for k, v in pairs(t) do
-            container[k] = v
-        end
-        container:SetNumSlots(container.widget.slotpos ~= nil and #container.widget.slotpos or 0)
-    end
-end
-
--- local function OpenMMS(self, doer)
-	-- if self.opener == nil and doer ~= nil then	
-		-- self.inst:StartUpdatingComponent(self)
-
-		-- local inventory = doer.components.inventory
-		-- if inventory ~= nil then
-			-- for k, v in pairs(inventory.opencontainers) do
-				-- if k.prefab == self.inst.prefab or k.components.container.type == self.type then
-					-- k.components.container:Close()
-				-- end
-			-- end
-
-			-- inventory.opencontainers[self.inst] = true
-		-- end
-
-		-- self.opener = doer
-
-		-- if doer.HUD ~= nil then
-			-- local playercontainers = doer.HUD.controls.containers
-			-- local quiverwidget = nil
-					
-			-- local hudscaleadjust = Profile:GetHUDSize()*2
-			-- local qs_pos = INVINFO.EQUIPSLOT_quiver:GetWorldPosition()
-		
-			-- doer.HUD:OpenContainer(self.inst, self:IsSideWidget())
-			-- TheFocalPoint.SoundEmitter:PlaySound("dontstarve/wilson/backpack_open", "open")
-			
-			-- if playercontainers then
-				-- for k, v in pairs(playercontainers) do
-					-- if v.container == self.inst then
-						-- quiverwidget = v
-					-- end
-				-- end
-			-- end
-			
-			-- if quiverwidget ~= nil then
-				-- if quiverwidget.QuiverHasAnchor == nil then
-					-- quiverwidget.QuiverHasAnchor = true
-					
-					-- quiverwidget:SetVAnchor(ANCHOR_BOTTOM)
-					-- quiverwidget:SetHAnchor(ANCHOR_LEFT)
-				-- end
-				
-				-- quiverwidget:UpdatePosition(qs_pos.x, (qs_pos.y+60+hudscaleadjust))			
-			-- end
-		-- end
-		
-		-- self.inst:PushEvent("onopen", { doer = doer })
-
-		-- if self.onopenfn ~= nil then
-			-- self.onopenfn(self.inst)
-		-- end
-	-- end
--- end
-
-local function OnWidgetUpdate(inst)
-    -- if inst._widgetupdate:value() ~= inst._clientwidgetupdate then
-        -- inst._clientwidgetupdate = inst._widgetupdate:value()
-		containers.widgetsetup = mywidgetsetup
-        inst.replica.container:WidgetSetup(inst.prefab, MMSwidgetparams)
-		containers.widgetsetup = prev_widgetsetup
-		-- inst.replica.container.Open = OpenQuiverClient
-    -- end
-end
-
-local function miningmachine_storagefn()
-	local inst = CreateEntity()
-
-	inst.entity:AddTransform()
-	inst.entity:AddAnimState()
-	inst.entity:AddFollower()
-	inst.entity:AddNetwork()
-
-	-- inst.Transform:SetFourFaced()
-	
-	inst.AnimState:SetBank("storage")
-	inst.AnimState:SetBuild("miningmachine")
-	inst.AnimState:PlayAnimation("idle")
-
-	inst:AddTag("storage")
-	
-	inst._widgetupdate = net_bool(inst.GUID, "_widgetupdate", "onwidgetupdate")
-	
-	inst.entity:SetPristine()
-
-	if not TheWorld.ismastersim then
-	-- inst._clientwidgetupdate = false
->>>>>>> origin/zupalex-test-branch
 	inst:ListenForEvent("onwidgetupdate", OnWidgetUpdate)
 		return inst
 	end
@@ -299,10 +190,6 @@ local function miningmachine_storagefn()
     inst.components.container:WidgetSetup(inst.prefab, MMSwidgetparams)
 	containers.widgetsetup = prev_widgetsetup
 	inst._widgetupdate:set(true)
-<<<<<<< HEAD
-=======
-	-- inst.components.container.Open = OpenMMStorage
->>>>>>> origin/zupalex-test-branch
 	
 	inst.SetFollowTarget = SetFollowTarget
 	
