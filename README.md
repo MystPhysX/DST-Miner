@@ -5,7 +5,7 @@ This will be an implementation of a miner for Do Not Starve Together.
 
 
 To-Do:
-- Come up with mod outline.
+- Start Work
 
 
 Ideas:
@@ -29,3 +29,9 @@ List of Diggable items (configurable):
 - Gems (rare) (depends on biome)
 - Trinkets (rare)
 - Moon Rocks (very rare) (depends on biome)
+
+
+ZupaleX Currently Working on:
+
+
+MystPhysX Currently Working on:
