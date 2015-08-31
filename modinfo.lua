@@ -26,15 +26,18 @@ server_filter_tags = {"machine", "mining"}
 
 configuration_options =
 {
-	-- {
-		-- name = "configplaceholder",
-		-- label = "blah",
-		-- hover = "blablabla",
-		-- options =
-		-- {
-			-- {description = "blabla", data = 1, hover = "blaaaa"},
-
-		-- },
-		-- default = 1,
-	-- },	
+	{
+		name = "MMStorageSize",
+		label = "Storage Capacity",
+		hover = "The Amount of slots for the Mining Machine Storage",
+		options =
+		{
+			{description = "4 slots", data = "ui_mms_2x2"},
+			{description = "6 slots", data = "ui_mms_2x3"},
+			{description = "9 slots", data = "ui_mms_3x3"},
+			{description = "12 slots", data = "ui_mms_4x3"},
+			{description = "16 slots", data = "ui_mms_4x4"},		
+		},
+		default = "ui_mms_2x3",
+	},	
 }
