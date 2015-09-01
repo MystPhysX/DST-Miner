@@ -22,6 +22,7 @@ Ideas:
       -  Bone Shard = 30%
       -  Gold Nugget = 20%
     - Etc...
+- There is a chance after a successful digging that a cave monster appear when you open the storage (one that could fit in the pipe still)
 
 Approved Ideas:
 - Mines stone randomly at a random interval? E.g every segment (16 segments per day) a function runs with a chance of success (60-75%?). If the function suceeds then it has a chance of "digging up" any item from the list below.
