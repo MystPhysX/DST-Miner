@@ -32,7 +32,7 @@ List of Diggable items (configurable):
 
 
 ZupaleX Currently Working on:
-
+- The base periodic function
 
 MystPhysX Currently Working on:
 
