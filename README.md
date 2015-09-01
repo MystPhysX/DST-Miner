@@ -9,6 +9,19 @@ To-Do:
 
 
 Ideas:
+- When the digging task is successful, a random number is generated between 1 and (3?) which will be the amount of item that digged.
+- Then a random chaeck is made for each of thess successful digging products to know to which tiers it belongs (common, uncommon, rare, very rare, etc...)
+- Then inside each tier, the items have their own probability
+  - Example
+    - Tier 1 : common
+      - rocks = 33%
+      - flint = 33%
+      - nitre = 33%
+    - Tier 2 : uncommon
+      -  Iron Ore = 50%
+      -  Bone Shard = 30%
+      -  Gold Nugget = 20%
+    - Etc...
 
 Approved Ideas:
 - Mines stone randomly at a random interval? E.g every segment (16 segments per day) a function runs with a chance of success (60-75%?). If the function suceeds then it has a chance of "digging up" any item from the list below.
