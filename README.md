@@ -32,7 +32,7 @@ List of Diggable items (configurable):
 
 
 ZupaleX Currently Working on:
-Sleeping :-)
+
 
 MystPhysX Currently Working on:
 
