@@ -208,12 +208,20 @@ local function onhammered(inst, worker)
 	inst:Remove()
 end
 
-local function onsaveMM(inst, data)
+local function OnSeasonChange(inst, data)
+	StopDigging(inst)
+	inst:DoTaskInTime(0.5, function()
+								InitializeDigging(inst)
+							end
+					)
+end
 
+local function onsaveMM(inst, data)
+-- placeholder
 end
 
 local function onloadMM(inst, data)
-
+-- placeholder
 end
 
 local function miningmachinefn()
@@ -277,6 +285,8 @@ local function miningmachinefn()
 	
 	inst:AddComponent("mnzmachines")
 	inst.leaktask = inst:DoPeriodicTask(TUNING.TOTAL_DAY_TIME/4, CheckForEscapeMobs) -- A mob can escape 4 times per day. This value should be tuned (?)
+	
+	inst:ListenForEvent("seasonChange", OnSeasonChange)
 	
 	inst.components.machine:TurnOn()
 	
@@ -483,7 +493,7 @@ end
 local function OnHostChangeCanDeploy(inst)
 	if inst._hostcandeploy:value() ~= inst._clientcandeploy then	
 		inst._clientcandeploy = inst._hostcandeploy:value()		
-		inst.replica.inventoryitem.CanDeploy = CanDeployZGates
+		inst.replica.inventoryitem.CanDeploy = CanDeployMM
 	end
 end
 

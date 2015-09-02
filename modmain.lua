@@ -1,6 +1,7 @@
 PrefabFiles = {
 	"miningmachine",
 	"wrench",
+	"mnzores",
 }
 
 Assets = {
@@ -82,6 +83,9 @@ STRINGS.NAMES.IRONWRENCH = "Iron Wrench"
 STRINGS.RECIPE_DESC.IRONWRENCH = "fancy recipe desc here"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.IRONWRENCH = "fancy character desc here"
 
+STRINGS.NAMES.MNZIRONORE = "Iron Ore"
+STRINGS.CHARACTERS.GENERIC.DESCRIBE.MNZIRONORE = "fancy character desc here"
+
 -----------------------------------------------------------------------ACTIONS--------------------------------------------------------------------------------------------------------
 
 local REPAIRMM = GLOBAL.Action(	6,		-- priority
@@ -156,3 +160,13 @@ GLOBAL.STRINGS.ACTIONS["REPAIRMM"] = {
 	UNJAM = "Unjam the Mining Machine",
 	MOUNT = "Mount the Mining Machine",
 }
+
+local base_deploystrfn = ACTIONS.DEPLOY.strfn
+
+ACTIONS.DEPLOY.strfn = function(act)
+	return act.invobject~= nil and
+			(act.invobject:HasTag("MnZmachines") and act.invobject:HasTag("kit") and "MMKIT") or
+			base_deploystrfn(act)
+end
+
+GLOBAL.STRINGS.ACTIONS.DEPLOY["MMKIT"] = "Deploy the Mining Machine Kit"
