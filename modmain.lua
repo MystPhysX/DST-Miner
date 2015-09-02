@@ -1,5 +1,6 @@
 PrefabFiles = {
 	"miningmachine",
+	"wrench",
 }
 
 Assets = {
@@ -60,9 +61,26 @@ end
 
 -- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+STRINGS.NAMES.MININGMACHINEKIT_ITEM = "Mining Machine in Kit"
+STRINGS.RECIPE_DESC.MININGMACHINEKIT_ITEM = "fancy recipe desc here"
+STRINGS.CHARACTERS.GENERIC.DESCRIBE.MININGMACHINEKIT_ITEM = "fancy character desc here"
+
+STRINGS.NAMES.MININGMACHINEKIT = "Mining Machine in Kit"
+STRINGS.CHARACTERS.GENERIC.DESCRIBE.MININGMACHINEKIT = "fancy character desc here"
+
 STRINGS.NAMES.MININGMACHINE = "Mining Machine or whatever"
-STRINGS.RECIPE_DESC.MININGMACHINE = "fancy recipe desc here"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.MININGMACHINE = "fancy character desc here"
+
+STRINGS.NAMES.MININGMACHINE_STORAGE = "Mining Machine Storage"
+STRINGS.CHARACTERS.GENERIC.DESCRIBE.MININGMACHINE_STORAGE = "fancy character desc here"
+
+STRINGS.NAMES.CRAPPYWRENCH = "DIY wrench"
+STRINGS.RECIPE_DESC.CRAPPYWRENCH = "Arguable quality"
+STRINGS.CHARACTERS.GENERIC.DESCRIBE.CRAPPYWRENCH = "You're kidding me?"
+
+STRINGS.NAMES.IRONWRENCH = "Iron Wrench"
+STRINGS.RECIPE_DESC.IRONWRENCH = "fancy recipe desc here"
+STRINGS.CHARACTERS.GENERIC.DESCRIBE.IRONWRENCH = "fancy character desc here"
 
 -----------------------------------------------------------------------ACTIONS--------------------------------------------------------------------------------------------------------
 
@@ -78,6 +96,8 @@ REPAIRMM.strfn = function(act)
 	local target = act.target
 	if target:HasTag("jammed") then
 		return "UNJAM"
+	elseif target:HasTag("kit") then
+		return "MOUNT"
 	end
 end
 REPAIRMM.id = "REPAIRMM"
@@ -90,7 +110,18 @@ REPAIRMM.fn = function(act)
 	if invobj and target and target:HasTag("jammed") and target:HasTag("cooldown") then
 		print("I unjam the machine!")
 		target.components.mnzmachines.jammed = false
-		invobj:Remove() -- To be tweaked when the wrenches will be implemented
+		invobj.components.finiteuses:Use()
+	end
+	
+	if invobj and target and target:HasTag("kit") and target:HasTag("structure") then
+		print("I mount the machine!")
+		local targetx, targety, targetz = target.Transform:GetWorldPosition()
+		target:Remove()
+		GLOBAL.SpawnPrefab("collapse_small").Transform:SetPosition(targetx, targety, targetz)
+		local mountedmachine = GLOBAL.SpawnPrefab("miningmachine")
+		mountedmachine.Transform:SetPosition(targetx, targety, targetz)
+		
+		invobj.components.finiteuses:Use()
 	end
 	
 	return true
@@ -102,18 +133,26 @@ AddStategraphActionHandler("wilson", ActionHandler(ACTIONS.REPAIRMM, "dolongacti
 
 AddStategraphActionHandler("wilson_client", ActionHandler(ACTIONS.REPAIRMM, "dolongaction"))
 
-local function MnZUseitemCA(inst, doer, target, actions, right)
-    if inst.prefab == "gears" and
-        target:HasTag("MnZmachines") and target:HasTag("jammed")
+local function MnZEquippedCA(inst, doer, target, actions, right)
+    if inst:HasTag("MnZmachines") and inst:HasTag("wrench") and target:HasTag("MnZmachines") and
+		(target:HasTag("jammed") or (target:HasTag("kit") and target:HasTag("structure")))
 		then
 			table.insert(actions, ACTIONS.REPAIRMM)
 	end
 end
 
+local function MnZUseitemCA(inst, doer, target, actions, right)
+    if inst:HasTag("MnZmachines") and inst:HasTag("wrench") and target:HasTag("MnZmachines") and
+		(target:HasTag("jammed") or (target:HasTag("kit") and target:HasTag("structure")))
+		then
+			table.insert(actions, ACTIONS.REPAIRMM)
+	end
+end
+
+AddComponentAction("EQUIPPED", "mnzmachines", MnZEquippedCA)
 AddComponentAction("USEITEM", "mnzmachines", MnZUseitemCA)
 
 GLOBAL.STRINGS.ACTIONS["REPAIRMM"] = {
 	UNJAM = "Unjam the Mining Machine",
+	MOUNT = "Mount the Mining Machine",
 }
-
-AddPrefabPostInit("gears", function(prefab) prefab:AddComponent("mnzmachines") end) -- for njamming testing purpose, I put the gear as the tool to unjam it
