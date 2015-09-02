@@ -40,4 +40,46 @@ configuration_options =
 		},
 		default = "ui_mms_2x3",
 	},	
+	
+	{
+		name = "ChestMobOdds",
+		label = "Mobs in Chest",
+		hover = "The probability to \"dig\" a mob long with regular items",
+		options =
+		{
+			{description = "Never", data = 0},
+			{description = "1%", data = 0.01},
+			{description = "2%", data = 0.02},
+			{description = "5%", data = 0.05},
+			{description = "10%", data = 0.10},		
+			{description = "15%", data = 0.15},	
+			{description = "20%", data = 0.20},	
+			{description = "25%", data = 0.25},	
+			{description = "30%", data = 0.30},	
+			{description = "40%", data = 0.40},	
+			{description = "50%", data = 0.50},	
+		},
+		default = 0.05,
+	},
+	
+	{
+		name = "EscapeMobOdds",
+		label = "Surface Leak",
+		hover = "The probability of cave monbs to spawn next to you Mining Machine",
+		options =
+		{
+			{description = "Never", data = 0},
+			{description = "1%", data = 0.01},
+			{description = "2%", data = 0.02},
+			{description = "5%", data = 0.05},
+			{description = "10%", data = 0.10},		
+			{description = "15%", data = 0.15},	
+			{description = "20%", data = 0.20},	
+			{description = "25%", data = 0.25},	
+			{description = "30%", data = 0.30},	
+			{description = "40%", data = 0.40},	
+			{description = "50%", data = 0.50},			
+		},
+		default = 0.05,
+	},
 }
