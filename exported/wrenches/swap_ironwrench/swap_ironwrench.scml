@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="r4.1">
+    <folder id="0" name="swap_ironwrench">
+        <file id="0" name="swap_ironwrench/swap_ironwrench.png" width="198" height="198" pivot_x="0.412336" pivot_y="0.367013"/>
+    </folder>
+    <folder id="1" name="swap_crappywrench">
+        <file id="0" name="swap_crappywrench/swap_crappywrench.png" width="198" height="198" pivot_x="0.412336" pivot_y="0.367013"/>
+    </folder>
+    <entity id="0" name="swap_ironwrench">
+        <animation id="0" name="BUILD" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="swap_ironwrench">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" x="6.087664" y="-0.867013" pivot_x="0.412336" pivot_y="0.367013" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="1" name="swap_crappywrench">
+        <animation id="0" name="BUILD" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="swap_ironwrench">
+                <key id="0" spin="0">
+                    <object folder="1" file="0" x="6.087664" y="-0.867013" pivot_x="0.412336" pivot_y="0.367013" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+</spriter_data>

@@ -13,7 +13,7 @@ MMLOOTTABLE["BIOME_"..GROUND.ROCKY] =
 	TIERTWO =
 	{
 		tierthreshold = 0.91,
-		ironore = 0.38,
+		mnzironore = 0.38,
 		goldnugget = 0.67,
 		redgem = 0.84,
 		bluegem = 1,
@@ -53,7 +53,7 @@ MMLOOTTABLE["BIOME_"..GROUND.SAVANNA] =
 	{
 		tierthreshold = 0.81,
 		goldnugget = 0.33,
-		ironore = 0.81,
+		mnzironore = 0.81,
 		horn = 1,
 	},
 	
@@ -94,7 +94,7 @@ MMLOOTTABLE["BIOME_"..GROUND.GRASS] =
 	TIERTWO =
 	{
 		tierthreshold = 0.89,
-		ironore = 0.32,
+		mnzironore = 0.32,
 		goldnugget = 0.58,
 		boneshard = 1,
 	},
@@ -137,7 +137,7 @@ MMLOOTTABLE["BIOME_"..GROUND.FOREST] =
 		tierthreshold = 0.9,
 		lightbulb = 0.17,
 		goldnugget = 0.50,
-		ironore = 0.83,
+		mnzironore = 0.83,
 		bluegem = 1,
 	},
 	
@@ -257,7 +257,7 @@ MMLOOTTABLE["BIOME_"..GROUND.DECIDUOUS] =
 	TIERTWO =
 	{
 		tierthreshold = 0.85,
-		ironore = 0.4,
+		mnzironore = 0.4,
 		goldnugget = 0.8,
 		coontail = 1, 
 	},
@@ -297,7 +297,7 @@ MMLOOTTABLE["BIOME_"..GROUND.DESERT_DIRT] =
 	{
 		tierthreshold = 0.87,
 		boneshards  = 0.41,
-		ironore = 0.61,
+		mnzironore = 0.61,
 		goldnugget = 0.75,
 		redgem = 0.85,
 		houndstooth = 1,

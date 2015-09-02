@@ -3,12 +3,42 @@ local assets=
     Asset("ANIM", "anim/miningmachine.zip"),
 	
 	Asset("ANIM", "anim/ui_mms.zip"),
+	
+	Asset("ATLAS", "images/inventory/miningmachinekit.xml"),
+    Asset("IMAGE", "images/inventory/miningmachinekit.tex"),
 }
 
 prefabs = {
 }
 
+require "prefabutil"
+
 -----------------------------------------------------------THE MACHINE ITSELF-----------------------------------------------------
+
+local function GetMMStorage(inst)
+	print("I check for an existing storage")
+	local instposx, instposy, instposz = inst.Transform:GetWorldPosition()
+	local nearbyents = TheSim:FindEntities(instposx, instposy, instposz, 3, { "MnZmachines" , "storage" })
+	
+	local foundmmstorage = nil
+	for k, v in pairs(nearbyents) do
+		print(k, " / ", v)
+		if v:IsValid() then
+			foundmmstorage = v
+		end
+	end
+	
+	if foundmmstorage == nil then
+		inst.mmstorage = SpawnPrefab("miningmachine_storage")
+		print("No storage found, I create a new one : ", inst.mmstorage)
+	else
+		inst.mmstorage = foundmmstorage
+		print("Existing storage found. Creating Link... ", inst.mmstorage)
+	end
+	
+	inst.mmstorage.Transform:SetPosition(inst:GetPosition():Get())
+	inst.mmstorage:SetFollowTarget(inst, "swap_storage", 0, 0, 0)
+end
 
 local function FillStorageWithSurpriseMob(inst, mob)
 	local mms = inst.mmstorage
@@ -73,22 +103,23 @@ local function DiggingJob(inst)
 			end
 		end
 		
-		print("---> Item to Dig  ", item_to_dig or "ERROR", " (draw = ", item_draw, ")")
+		print("---> Item to Dig  ", item_to_dig or "NOTHING!", " (draw = ", item_draw, ")")
 		
 		local mms = inst.mmstorage
 		
 		if item_to_dig then
 			print("------> Storage = ", inst.mmstorage, "(found the container component : ", inst.mmstorage.components.container, ")")
+			-- inst.components.lootdropper:SpawnLootPrefab(item_to_dig)
 			local item_to_store = SpawnPrefab(item_to_dig)
 			local storeincontainer = mms.components.container:GiveItem(item_to_store, nil, nil, false)
 		end
 		
 		local chestmob_draw = math.random()
-		if mms.components.mnzmachines.surpriseinchest and #mms.components.mnzmachines.surpriseinchest < 3 and chestmob_draw < TUNING.CHESTMOBSODDS then
+		if mms.components.mnzmachines.surpriseinchest and chestmob_draw < TUNING.CHESTMOBSODDS then
 			closest_th = 2
 			local mob_to_store = nil
 			for k, v in pairs(MMLOOTTABLE["BIOME_"..tiletype]["CHESTMOBS"]) do
-				if v < closest_th and v > chestmob_draw/TUNING.CHESTMOBSODDS then
+				if v < closest_th and v > chestmob_draw/TUNING.CHESTMOBSODDS then -- the division by the odd is to bring it back to a base of 1
 					closest_th = v
 					mob_to_store = k
 				end
@@ -100,18 +131,12 @@ local function DiggingJob(inst)
 		if TheWorld.state.season == "summer" then
 			if math.random() < 0.3 then
 				print("Failed Digging Task : Machine Jammed!!")
-				inst.components.machine:TurnOff()
-				inst:DoTaskInTime(0.6, function () -- to prevent a DoTaskInTime of the TunOff function to interfere after 0.5 seconds, I execute it after 0.6 seconds
-					inst.components.mnzmachines.jammed = true 
-				end)
+				inst.components.mnzmachines.jammed = true 
 			end
 		else
 			if math.random() < 0.15 then
 				print("Failed Digging Task : Machine Jammed!!")
-				inst.components.machine:TurnOff()
-				inst:DoTaskInTime(0.6, function () -- to prevent a DoTaskInTime of the TunOff function to interfere after 0.5 seconds, I execute it after 0.6 seconds
-					inst.components.mnzmachines.jammed = true 
-				end)
+				inst.components.mnzmachines.jammed = true 
 			end
 		end
 	end
@@ -120,6 +145,10 @@ local function DiggingJob(inst)
 end
 
 local function InitializeDigging(inst)
+	if inst.mmstorage == nil then
+		inst:DoTaskInTime(1, GetMMStorage)
+	end
+	
 	if inst.diggingtask == nil then
 		if TheWorld.state.season == "winter" then
 			inst.diggingtask = inst:DoPeriodicTask(7, DiggingJob) -- adjust the periodicity later with TUNING.SEG_TIME (make it configurable anyway)
@@ -168,6 +197,33 @@ local function CheckForEscapeMobs(inst)
 	end
 end
 
+local function onhammered(inst, worker)
+	SpawnPrefab("collapse_small").Transform:SetPosition(inst.Transform:GetWorldPosition())
+	
+	if inst.mmstorage ~= nil then
+		inst.mmstorage:Remove()
+		inst.mmstorage = nil
+	end
+	
+	inst:Remove()
+end
+
+local function OnSeasonChange(inst, data)
+	StopDigging(inst)
+	inst:DoTaskInTime(0.5, function()
+								InitializeDigging(inst)
+							end
+					)
+end
+
+local function onsaveMM(inst, data)
+-- placeholder
+end
+
+local function onloadMM(inst, data)
+-- placeholder
+end
+
 local function miningmachinefn()
 	local inst = CreateEntity()
 
@@ -175,6 +231,8 @@ local function miningmachinefn()
 	inst.entity:AddAnimState()
 	inst.entity:AddNetwork()
 
+	MakeObstaclePhysics(inst, 1)
+	
 	-- inst.Transform:SetFourFaced()
 	
 	inst.AnimState:SetBank("miningmachine")
@@ -199,10 +257,6 @@ local function miningmachinefn()
 	inst.components.machine.turnofffn = TurnOff
 	inst.components.machine.cooldowntime = 0.5
 	
-	inst.mmstorage = SpawnPrefab("miningmachine_storage")
-	inst.mmstorage.Transform:SetPosition(inst:GetPosition():Get())
-	inst.mmstorage:SetFollowTarget(inst, "swap_storage", 0, 0, 0)
-	
 	-- inst:AddComponent("fueled")
 	-- inst.components.fueled:SetDepletedFn(OnFuelEmpty)
 	-- inst.components.fueled.accepting = true
@@ -222,20 +276,22 @@ local function miningmachinefn()
 	
 	inst:AddComponent("lootdropper")
 	
-	-- inst:AddComponent("workable")
-	-- inst.components.workable:SetWorkAction(ACTIONS.HAMMER)
-	-- inst.components.workable:SetWorkLeft(5)
-	-- inst.components.workable:SetOnFinishCallback(onhammered)
+	inst:AddComponent("workable")
+	inst.components.workable:SetWorkAction(ACTIONS.HAMMER)
+	inst.components.workable:SetWorkLeft(5)
+	inst.components.workable:SetOnFinishCallback(onhammered)
 	-- inst.components.workable:SetOnWorkCallback(onhit)
 	-- inst:ListenForEvent("onbuilt", onbuilt)
 	
 	inst:AddComponent("mnzmachines")
 	inst.leaktask = inst:DoPeriodicTask(TUNING.TOTAL_DAY_TIME/4, CheckForEscapeMobs) -- A mob can escape 4 times per day. This value should be tuned (?)
 	
-	-- inst.OnSave = onsave 
-	-- inst.OnLoad = onload
+	inst:ListenForEvent("seasonChange", OnSeasonChange)
 	
 	inst.components.machine:TurnOn()
+	
+	inst.OnSave = onsaveMM
+	inst.OnLoad = onloadMM
 	
 	MakeHauntableLaunch(inst)
 	
@@ -333,16 +389,17 @@ local function OnWidgetUpdate(inst)
 end
 
 local function OnOpenMMS(inst)
-	print("I call the OnOpenMMS")
+	print("I call the OnOpenMMS for ", inst)
 	print("-> Found mnzmachines component : ", inst.components.mnzmachines)
-	print("-> surpriseinchest exists : ", inst.components.mnzmachines.surpriseinchest, "and if of size ", #inst.components.mnzmachines.surpriseinchest)
+	local surprisetable = inst.components.mnzmachines and inst.components.mnzmachines.surpriseinchest
+	print("-> surpriseinchest exists : ", surprisetable, "and is not empty ", surprisetable ~= nil)
 	
-	for k, v in pairs(inst.components.mnzmachines.surpriseinchest) do
+	for k, v in pairs(surprisetable) do
 		print(k, " / ", v)
 	end
 	
-	if inst.components.mnzmachines and inst.components.mnzmachines.surpriseinchest and #inst.components.mnzmachines.surpriseinchest then
-		for k, v in pairs(inst.components.mnzmachines.surpriseinchest) do
+	if inst.components.mnzmachines and surprisetable then
+		for k, v in pairs(surprisetable) do
 			for n = 1, v, 1 do
 				inst:DoTaskInTime(0.5, function()
 											local surprisemob = SpawnPrefab(k)
@@ -395,5 +452,144 @@ local function miningmachine_storagefn()
 	return inst
 end
 
+------------------------------------------------------------------------------KIT----------------------------------------------------
+
+local function OnDeployMM(inst, pt, deployer)
+	inst.Physics:Teleport(pt:Get())
+	local deployedkit = SpawnPrefab("miningmachinekit")
+	deployedkit.Physics:SetCollides(false)
+	deployedkit.Transform:SetPosition(inst.Transform:GetWorldPosition())
+	deployedkit.Physics:SetCollides(true)
+	inst:Remove()
+end
+
+local validtiles = { GROUND.ROCKY , GROUND.SAVANNA , GROUND.GRASS , GROUND.FOREST , GROUND.MARSH , GROUND.CARPET , GROUND.DECIDUOUS , GROUND.DESERT_DIRT}
+
+local function CanDeployMM(self, pt, mouseover)
+	local candeploybase = TheWorld.Map:CanDeployAtPoint(pt, self.inst)
+	
+	local deploytile = TheWorld.Map:GetTileAtPoint(pt:Get())
+	local groundcheck = false
+	
+	for k, v in pairs(validtiles) do
+		if deploytile == v then
+			groundcheck = true
+			break
+		end
+	end
+	
+	local minspacingcheck = true
+	local nearbyents = TheSim:FindEntities(pt.x, pt.y, pt.z, 8, { "MnZmachines" , "structure" })
+	for k, v in pairs(nearbyents) do
+		if v:IsValid() then
+			minspacingcheck = false
+			break
+		end
+	end
+	
+	return (candeploybase and groundcheck and minspacingcheck)
+end
+
+local function OnHostChangeCanDeploy(inst)
+	if inst._hostcandeploy:value() ~= inst._clientcandeploy then	
+		inst._clientcandeploy = inst._hostcandeploy:value()		
+		inst.replica.inventoryitem.CanDeploy = CanDeployMM
+	end
+end
+
+local function miningmachinekit_itemfn()
+    local inst = CreateEntity()
+    inst.entity:AddTransform()
+    inst.entity:AddAnimState()
+    inst.entity:AddNetwork()
+	
+	MakeInventoryPhysics(inst)
+     
+    inst.AnimState:SetBank("kit")
+    inst.AnimState:SetBuild("miningmachine")
+    inst.AnimState:PlayAnimation("idle")
+	inst.AnimState:SetScale(0.4,0.4,1)
+ 
+	inst:AddTag("kit") -- Tag is not doing anything by itself. I can be called by other stuffs though.
+	
+ 	inst._hostcandeploy = net_bool(inst.GUID, "_hostcandeploy", "onhostchangecandeploy")
+	
+ --The following section is suitable for a DST compatible prefab.
+    inst.entity:SetPristine()
+	
+    if not TheWorld.ismastersim then	
+		inst._clientcandeploy = nil
+		inst:ListenForEvent("onhostchangecandeploy", OnHostChangeCanDeploy)
+        return inst
+    end
+	
+----------------------------------------------------------------
+
+    inst:AddComponent("inspectable")
+	
+    inst:AddComponent("inventoryitem")
+    inst.components.inventoryitem.imagename = "miningmachinekit"
+    inst.components.inventoryitem.atlasname = "images/inventory/miningmachinekit.xml"
+
+    inst:AddComponent("deployable")
+	
+	inst.components.deployable.CanDeploy = CanDeployMM
+	inst._hostcandeploy:set(true)
+	inst.components.deployable.ondeploy = OnDeployMM
+
+	inst:AddComponent("mnzmachines")
+	
+    MakeHauntableLaunch(inst)
+
+	return inst
+end
+
+local function miningmachinekitfn()
+    local inst = CreateEntity()
+    inst.entity:AddTransform()
+    inst.entity:AddAnimState()
+    inst.entity:AddNetwork()
+	
+	MakeObstaclePhysics(inst, 1)
+     
+    inst.AnimState:SetBank("kit")
+    inst.AnimState:SetBuild("miningmachine")
+    inst.AnimState:PlayAnimation("idle")
+ 
+	inst:AddTag("kit") -- Tag is not doing anything by itself. I can be called by other stuffs though.
+	inst:AddTag("structure")
+	
+ 	inst._hostcandeploy = net_bool(inst.GUID, "_hostcandeploy", "onhostchangecandeploy")
+	
+ --The following section is suitable for a DST compatible prefab.
+    inst.entity:SetPristine()
+	
+    if not TheWorld.ismastersim then	
+		inst._clientcandeploy = nil
+		inst:ListenForEvent("onhostchangecandeploy", OnHostChangeCanDeploy)
+        return inst
+    end
+	
+----------------------------------------------------------------
+
+    inst:AddComponent("inspectable")
+	
+	inst:AddComponent("workable")
+	inst.components.workable:SetWorkAction(ACTIONS.HAMMER)
+	inst.components.workable:SetWorkLeft(5)
+	inst.components.workable:SetOnFinishCallback(onhammered)
+	-- inst.components.workable:SetOnWorkCallback(onhit)
+	-- inst:ListenForEvent("onbuilt", onbuilt)
+	
+	inst:AddComponent("mnzmachines")
+	
+    MakeHauntableLaunch(inst)
+
+	return inst
+end
+
 return  Prefab("common/machines/miningmachine", miningmachinefn, assets, prefabs),
-		Prefab("common/machines/miningmachine_storage", miningmachine_storagefn, assets, prefabs)
+		Prefab("common/machines/miningmachine_storage", miningmachine_storagefn, assets, prefabs),
+		Prefab("common/machines/miningmachinekit", miningmachinekitfn, assets, prefabs),
+		Prefab("common/machines/miningmachinekit_item", miningmachinekit_itemfn, assets, prefabs),
+		MakePlacer("common/machines/miningmachinekit_item_placer", "miningmachine", "miningmachine", "idle")
