@@ -81,17 +81,6 @@ local function DiggingJob(inst)
 			print("------> Storage = ", inst.mmstorage, "(found the container component : ", inst.mmstorage.components.container, ")")
 			local item_to_store = SpawnPrefab(item_to_dig)
 			local storeincontainer = mms.components.container:GiveItem(item_to_store, nil, nil, false)
-			
-			if not storeincontainer then
-				if math.random() < 0.10 then
-					print("Container full, damaging pipe : Machine Jammed!!")
-					inst.components.machine:TurnOff()
-					inst:DoTaskInTime(0.6, function () -- to prevent a DoTaskInTime of the TunOff function to interfere after 0.5 seconds, I execute it after 0.6 seconds
-												inst.components.mnzmachines.jammed = true 
-											end
-									)
-				end
-			end
 		end
 		
 		local chestmob_draw = math.random()
@@ -108,13 +97,22 @@ local function DiggingJob(inst)
 			FillStorageWithSurpriseMob(inst, mob_to_store)
 		end
 	else
-		if math.random() < 0.15 then
-			print("Failed Digging Task : Machine Jammed!!")
-			inst.components.machine:TurnOff()
-			inst:DoTaskInTime(0.6, function () -- to prevent a DoTaskInTime of the TunOff function to interfere after 0.5 seconds, I execute it after 0.6 seconds
-										inst.components.mnzmachines.jammed = true 
-									end
-							)
+		if TheWorld.state.season == "summer" then
+			if math.random() < 0.3 then
+				print("Failed Digging Task : Machine Jammed!!")
+				inst.components.machine:TurnOff()
+				inst:DoTaskInTime(0.6, function () -- to prevent a DoTaskInTime of the TunOff function to interfere after 0.5 seconds, I execute it after 0.6 seconds
+					inst.components.mnzmachines.jammed = true 
+				end)
+			end
+		else
+			if math.random() < 0.15 then
+				print("Failed Digging Task : Machine Jammed!!")
+				inst.components.machine:TurnOff()
+				inst:DoTaskInTime(0.6, function () -- to prevent a DoTaskInTime of the TunOff function to interfere after 0.5 seconds, I execute it after 0.6 seconds
+					inst.components.mnzmachines.jammed = true 
+				end)
+			end
 		end
 	end
 	
@@ -123,7 +121,11 @@ end
 
 local function InitializeDigging(inst)
 	if inst.diggingtask == nil then
-		inst.diggingtask = inst:DoPeriodicTask(5, DiggingJob) -- adjust the periodicity later with TUNING.SEG_TIME (make it configurable anyway)
+		if TheWorld.state.season == "winter" then
+			inst.diggingtask = inst:DoPeriodicTask(7, DiggingJob) -- adjust the periodicity later with TUNING.SEG_TIME (make it configurable anyway)
+		else
+			inst.diggingtask = inst:DoPeriodicTask(5, DiggingJob) -- adjust the periodicity later with TUNING.SEG_TIME (make it configurable anyway)
+		end
 	end
 end
 
