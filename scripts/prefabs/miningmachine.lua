@@ -163,6 +163,8 @@ local function TurnOff(inst, instant)
 
 	StopDigging(inst)
 	
+	inst.components.fueled:StopConsuming()
+	
 	-- inst.sg:GoToState("turn_off")
 end
 
@@ -172,6 +174,8 @@ local function TurnOn(inst, instant)
 	if not inst:HasTag("jammed") then
 		InitializeDigging(inst)
 	end
+	
+	inst.components.fueled:StartConsuming()
 	
 	-- inst.sg:GoToState("turn_on")
 end
@@ -224,6 +228,23 @@ local function onloadMM(inst, data)
 -- placeholder
 end
 
+local function OnFuelEmpty(inst)
+    inst.components.machine:TurnOff()
+end
+
+local function OnAddFuel(inst)
+    if inst.on == false then
+        inst.components.machine:TurnOn()
+    end
+end
+
+-- local function OnFuelSectionChange(new, old, inst)
+    -- if inst._fuellevel ~= new then
+        -- inst._fuellevel = new
+        -- inst.AnimState:OverrideSymbol("swap_meter", "firefighter_meter", new)
+    -- end
+-- end
+
 local function miningmachinefn()
 	local inst = CreateEntity()
 
@@ -257,22 +278,18 @@ local function miningmachinefn()
 	inst.components.machine.turnofffn = TurnOff
 	inst.components.machine.cooldowntime = 0.5
 	
-	-- inst:AddComponent("fueled")
-	-- inst.components.fueled:SetDepletedFn(OnFuelEmpty)
-	-- inst.components.fueled.accepting = true
--- --    inst.components.fueled.ontakefuelfn = OnAddFuel
-	-- inst.components.fueled.fueltype = FUELTYPE.BURNABLE
-	-- inst.components.fueled.bonusmult = placeholder
-	-- inst.components.fueled.CanAcceptFuelItem = placeholder
-	-- inst.components.fueled:SetSections(placeholder)
+	inst:AddComponent("fueled")
+	inst.components.fueled:SetDepletedFn(OnFuelEmpty)
+	inst.components.fueled.accepting = true
+	inst.components.fueled.ontakefuelfn = OnAddFuel
+	inst.components.fueled.fueltype = FUELTYPE.BURNABLE
+	inst.components.fueled.secondaryfueltype = FUELTYPE.CHEMICAL
+	inst.components.fueled.bonusmult = 3.5
+	inst.components.fueled:SetSections(10)
 	-- inst.components.fueled:SetSectionCallback(OnFuelSectionChange)
-	-- inst.components.fueled.maxfuel = placeholder
-	-- inst.components.fueled.TakeFuelItem = placeholder
-	-- inst:DoTaskInTime(0, function()
-	--							dostuffs
-						-- end
-					-- )
-	-- inst.components.fueled.OnSave = OnSaveFueled
+	inst.components.fueled.maxfuel = TUNING.TOTAL_DAY_TIME*5
+    inst.components.fueled:InitializeFuelLevel(TUNING.TOTAL_DAY_TIME*5)
+	inst.components.fueled.OnSave = OnSaveFueled
 	
 	inst:AddComponent("lootdropper")
 	
