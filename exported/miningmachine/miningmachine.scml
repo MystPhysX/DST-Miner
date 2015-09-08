@@ -1,56 +1,256 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="r4.1">
+<spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="b5">
     <folder id="0">
         <file id="0" name="miningmachine.png" width="600" height="600" pivot_x="0" pivot_y="1"/>
-        <file id="1" name="kit.png" width="600" height="600" pivot_x="0" pivot_y="1"/>
+        <file id="1" name="drill.png" width="600" height="600" pivot_x="0" pivot_y="1"/>
+        <file id="2" name="gear2.png" width="600" height="600" pivot_x="0" pivot_y="1"/>
+        <file id="3" name="gear1.png" width="600" height="600" pivot_x="0" pivot_y="1"/>
+        <file id="4" name="kit.png" width="600" height="600" pivot_x="0" pivot_y="1"/>
     </folder>
     <folder id="1" name="swap_storage">
-        <file id="0" name="swap_storage/swap_storage.png" width="127" height="115" pivot_x="0" pivot_y="1"/>
+        <file id="0" name="swap_storage/swap_storage.png" width="127" height="115" pivot_x="0.727865" pivot_y="0.501437"/>
+    </folder>
+    <folder id="2" name="swap_miningfuelmeter">
+        <file id="0" name="swap_miningfuelmeter/swap_miningfuelmeter.png" width="600" height="600" pivot_x="0.506373" pivot_y="0.4994"/>
     </folder>
     <entity id="0" name="miningmachine">
-        <animation id="0" name="idle" length="1000" interval="100">
+        <animation id="0" name="idle" length="1000">
             <mainline>
                 <key id="0">
-                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
-                    <object_ref id="1" timeline="1" key="0" z_index="1"/>
+                    <object_ref id="0" name="drill" folder="0" file="1" abs_x="-438" abs_y="736" abs_pivot_x="0" abs_pivot_y="1" abs_angle="0" abs_scale_x="1.5" abs_scale_y="1.5" abs_a="1" timeline="3" key="0" z_index="0"/>
+                    <object_ref id="1" name="miningmachine" folder="0" file="0" abs_x="-438" abs_y="736" abs_pivot_x="0" abs_pivot_y="1" abs_angle="0" abs_scale_x="1.5" abs_scale_y="1.5" abs_a="1" timeline="0" key="0" z_index="1"/>
+                    <object_ref id="2" name="swap_storage" folder="1" file="0" abs_x="-128.341797" abs_y="287.997845" abs_pivot_x="0.727865" abs_pivot_y="0.501437" abs_angle="0" abs_scale_x="1.5" abs_scale_y="1.5" abs_a="1" timeline="1" key="0" z_index="2"/>
+                    <object_ref id="3" name="swap_miningfuelmeter" folder="2" file="0" abs_x="196.861072" abs_y="380.210134" abs_pivot_x="0.506373" abs_pivot_y="0.4994" abs_angle="0" abs_scale_x="1.5" abs_scale_y="1.5" abs_a="1" timeline="2" key="0" z_index="3"/>
+                    <object_ref id="4" name="gear2" folder="0" file="2" abs_x="-438" abs_y="736" abs_pivot_x="0" abs_pivot_y="1" abs_angle="0" abs_scale_x="1.5" abs_scale_y="1.5" abs_a="1" timeline="4" key="0" z_index="4"/>
+                    <object_ref id="5" name="gear1" folder="0" file="3" abs_x="-438" abs_y="736" abs_pivot_x="0" abs_pivot_y="1" abs_angle="0" abs_scale_x="1.5" abs_scale_y="1.5" abs_a="1" timeline="5" key="0" z_index="5"/>
                 </key>
             </mainline>
             <timeline id="0" name="miningmachine">
                 <key id="0" spin="0">
-                    <object folder="0" file="0" x="-304" y="487" angle="0"/>
+                    <object folder="0" file="0" x="-438" y="736" angle="0" scale_x="1.5" scale_y="1.5"/>
                 </key>
             </timeline>
             <timeline id="1" name="swap_storage">
                 <key id="0" spin="0">
-                    <object folder="1" file="0" x="-299.388623" y="200.717703" angle="0"/>
+                    <object folder="1" file="0" x="-128.341797" y="287.997845" angle="0" scale_x="1.5" scale_y="1.5"/>
+                </key>
+            </timeline>
+            <timeline id="2" name="swap_miningfuelmeter">
+                <key id="0" spin="0">
+                    <object folder="2" file="0" x="196.861072" y="380.210134" angle="0" scale_x="1.5" scale_y="1.5"/>
+                </key>
+            </timeline>
+            <timeline id="3" name="drill">
+                <key id="0" spin="0">
+                    <object folder="0" file="1" x="-438" y="736" angle="0" scale_x="1.5" scale_y="1.5"/>
+                </key>
+            </timeline>
+            <timeline id="4" name="gear2">
+                <key id="0" spin="0">
+                    <object folder="0" file="2" x="-438" y="736" angle="0" scale_x="1.5" scale_y="1.5"/>
+                </key>
+            </timeline>
+            <timeline id="5" name="gear1">
+                <key id="0" spin="0">
+                    <object folder="0" file="3" x="-438" y="736" angle="0" scale_x="1.5" scale_y="1.5"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="mining" length="1000" looping="false">
+            <mainline>
+                <key id="0">
+                    <bone_ref id="0" timeline="6" key="0"/>
+                    <bone_ref id="1" timeline="7" key="0"/>
+                    <bone_ref id="2" timeline="8" key="0"/>
+                    <object_ref id="0" parent="0" name="drill" folder="0" file="1" abs_x="-438" abs_y="735.999826" abs_pivot_x="0" abs_pivot_y="1" abs_angle="0" abs_scale_x="1.499997" abs_scale_y="1.5" abs_a="1" timeline="3" key="0" z_index="0"/>
+                    <object_ref id="1" name="miningmachine" folder="0" file="0" abs_x="-438" abs_y="736" abs_pivot_x="0" abs_pivot_y="1" abs_angle="0" abs_scale_x="1.5" abs_scale_y="1.5" abs_a="1" timeline="0" key="0" z_index="1"/>
+                    <object_ref id="2" name="swap_storage" folder="1" file="0" abs_x="-128.341797" abs_y="287.997845" abs_pivot_x="0.727865" abs_pivot_y="0.501437" abs_angle="0" abs_scale_x="1.5" abs_scale_y="1.5" abs_a="1" timeline="1" key="0" z_index="2"/>
+                    <object_ref id="3" name="swap_miningfuelmeter" folder="2" file="0" abs_x="196.861072" abs_y="380.210134" abs_pivot_x="0.506373" abs_pivot_y="0.4994" abs_angle="0" abs_scale_x="1.5" abs_scale_y="1.5" abs_a="1" timeline="2" key="0" z_index="3"/>
+                    <object_ref id="4" parent="1" name="gear2" folder="0" file="2" abs_x="-438" abs_y="735.999499" abs_pivot_x="0" abs_pivot_y="1" abs_angle="0" abs_scale_x="1.499997" abs_scale_y="1.5" abs_a="1" timeline="4" key="0" z_index="4"/>
+                    <object_ref id="5" parent="2" name="gear1" folder="0" file="3" abs_x="-438" abs_y="735.99923" abs_pivot_x="0" abs_pivot_y="1" abs_angle="0" abs_scale_x="1.499997" abs_scale_y="1.5" abs_a="1" timeline="5" key="0" z_index="5"/>
+                </key>
+                <key id="1" time="250">
+                    <bone_ref id="0" timeline="6" key="0"/>
+                    <bone_ref id="1" timeline="7" key="1"/>
+                    <bone_ref id="2" timeline="8" key="1"/>
+                    <object_ref id="0" parent="0" timeline="3" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="0" z_index="1"/>
+                    <object_ref id="2" timeline="1" key="0" z_index="2"/>
+                    <object_ref id="3" timeline="2" key="0" z_index="3"/>
+                    <object_ref id="4" parent="1" timeline="4" key="0" z_index="4"/>
+                    <object_ref id="5" parent="2" timeline="5" key="1" z_index="5"/>
+                </key>
+                <key id="2" time="500">
+                    <bone_ref id="0" timeline="6" key="1"/>
+                    <bone_ref id="1" timeline="7" key="2"/>
+                    <bone_ref id="2" timeline="8" key="2"/>
+                    <object_ref id="0" parent="0" timeline="3" key="1" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="1" z_index="1"/>
+                    <object_ref id="2" timeline="1" key="1" z_index="2"/>
+                    <object_ref id="3" timeline="2" key="1" z_index="3"/>
+                    <object_ref id="4" parent="1" timeline="4" key="1" z_index="4"/>
+                    <object_ref id="5" parent="2" timeline="5" key="2" z_index="5"/>
+                </key>
+                <key id="3" time="1000">
+                    <bone_ref id="0" timeline="6" key="2"/>
+                    <bone_ref id="1" timeline="7" key="3"/>
+                    <bone_ref id="2" timeline="8" key="3"/>
+                    <object_ref id="0" parent="0" timeline="3" key="2" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="2" z_index="1"/>
+                    <object_ref id="2" timeline="1" key="2" z_index="2"/>
+                    <object_ref id="3" timeline="2" key="2" z_index="3"/>
+                    <object_ref id="4" parent="1" timeline="4" key="2" z_index="4"/>
+                    <object_ref id="5" parent="2" timeline="5" key="3" z_index="5"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="miningmachine">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" x="-438" y="736" angle="0" scale_x="1.5" scale_y="1.5"/>
+                </key>
+                <key id="1" time="500" spin="0">
+                    <object folder="0" file="0" x="-438" y="736" angle="0" scale_x="1.5" scale_y="1.5"/>
+                </key>
+                <key id="2" time="1000" spin="0">
+                    <object folder="0" file="0" x="-438" y="736" angle="0" scale_x="1.5" scale_y="1.5"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="swap_storage">
+                <key id="0" spin="0">
+                    <object folder="1" file="0" x="-128.341797" y="287.997845" angle="0" scale_x="1.5" scale_y="1.5"/>
+                </key>
+                <key id="1" time="500" spin="0">
+                    <object folder="1" file="0" x="-128.341797" y="287.997845" angle="0" scale_x="1.5" scale_y="1.5"/>
+                </key>
+                <key id="2" time="1000" spin="0">
+                    <object folder="1" file="0" x="-128.341797" y="287.997845" angle="0" scale_x="1.5" scale_y="1.5"/>
+                </key>
+            </timeline>
+            <timeline id="2" name="swap_miningfuelmeter">
+                <key id="0" spin="0">
+                    <object folder="2" file="0" x="196.861072" y="380.210134" angle="0" scale_x="1.5" scale_y="1.5"/>
+                </key>
+                <key id="1" time="500" spin="0">
+                    <object folder="2" file="0" x="196.861072" y="380.210134" angle="0" scale_x="1.5" scale_y="1.5"/>
+                </key>
+                <key id="2" time="1000" spin="0">
+                    <object folder="2" file="0" x="196.861072" y="380.210134" angle="0" scale_x="1.5" scale_y="1.5"/>
+                </key>
+            </timeline>
+            <timeline id="3" name="drill">
+                <key id="0" spin="0">
+                    <object folder="0" file="1" x="-519.741935" y="-434" angle="90" scale_x="9.290323" scale_y="1.5"/>
+                </key>
+                <key id="1" time="500" spin="0">
+                    <object folder="0" file="1" x="-519.741935" y="-434" angle="90" scale_x="9.290323" scale_y="1.5"/>
+                </key>
+                <key id="2" time="1000" spin="0">
+                    <object folder="0" file="1" x="-519.741935" y="-434" angle="90" scale_x="9.290323" scale_y="1.5"/>
+                </key>
+            </timeline>
+            <timeline id="4" name="gear2">
+                <key id="0" spin="0">
+                    <object folder="0" file="2" x="4905.135333" y="426.458333" angle="270" scale_x="28.657071" scale_y="1.5"/>
+                </key>
+                <key id="1" time="500" spin="0">
+                    <object folder="0" file="2" x="4905.135333" y="426.458333" angle="270" scale_x="28.657071" scale_y="1.5"/>
+                </key>
+                <key id="2" time="1000" spin="0">
+                    <object folder="0" file="2" x="4905.135333" y="426.458333" angle="270" scale_x="28.657071" scale_y="1.5"/>
+                </key>
+            </timeline>
+            <timeline id="5" name="gear1">
+                <key id="0" spin="0">
+                    <object folder="0" file="3" x="7532.829545" y="482.708333" angle="270" scale_x="28.657071" scale_y="1.5"/>
+                </key>
+                <key id="1" time="250" spin="0">
+                    <object folder="0" file="3" x="7532.829545" y="482.708333" angle="270" scale_x="28.657071" scale_y="1.5"/>
+                </key>
+                <key id="2" time="500" spin="0">
+                    <object folder="0" file="3" x="7532.829545" y="482.708333" angle="270" scale_x="28.657071" scale_y="1.5"/>
+                </key>
+                <key id="3" time="1000" spin="0">
+                    <object folder="0" file="3" x="7532.829545" y="482.708333" angle="270" scale_x="28.657071" scale_y="1.5"/>
+                </key>
+            </timeline>
+            <timeline id="6" name="bone_000" object_type="bone">
+                <key id="0" spin="0">
+                    <bone x="-4" y="652.083333" angle="270" scale_x="0.161458"/>
+                </key>
+                <key id="1" time="500" spin="0">
+                    <bone x="-4" y="518.75" angle="270" scale_x="0.161458"/>
+                </key>
+                <key id="2" time="1000" spin="0">
+                    <bone x="-4" y="652.08333" angle="270" scale_x="0.161458"/>
+                </key>
+            </timeline>
+            <timeline id="7" name="bone_001" object_type="bone">
+                <key id="0" spin="-1">
+                    <bone x="-11.541667" y="479.25" angle="90" scale_x="0.052343"/>
+                </key>
+                <key id="1" time="250" spin="-1">
+                    <bone x="-11.541667" y="479.25" angle="0" scale_x="0.052343"/>
+                </key>
+                <key id="2" time="500" spin="-1">
+                    <bone x="-11.541667" y="479.25" angle="270" scale_x="0.052343"/>
+                </key>
+                <key id="3" time="1000" spin="0">
+                    <bone x="-11.541667" y="479.25" angle="90" scale_x="0.052343"/>
+                </key>
+            </timeline>
+            <timeline id="8" name="bone_002" object_type="bone">
+                <key id="0" spin="-1">
+                    <bone x="44.708333" y="341.708333" angle="90" scale_x="0.052343"/>
+                </key>
+                <key id="1" time="250" spin="-1">
+                    <bone x="44.708333" y="341.708333" angle="0" scale_x="0.05234"/>
+                </key>
+                <key id="2" time="500" spin="-1">
+                    <bone x="44.708333" y="341.708333" angle="270" scale_x="0.052343"/>
+                </key>
+                <key id="3" time="1000" spin="0">
+                    <bone x="44.708333" y="341.708333" angle="90" scale_x="0.052343"/>
                 </key>
             </timeline>
         </animation>
     </entity>
     <entity id="1" name="kit">
-        <animation id="0" name="idle" length="1000" interval="100">
+        <animation id="0" name="idle" length="1000">
             <mainline>
                 <key id="0">
-                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="0" name="kit" folder="0" file="4" abs_x="-438" abs_y="736" abs_pivot_x="0" abs_pivot_y="1" abs_angle="0" abs_scale_x="1.5" abs_scale_y="1.5" abs_a="1" timeline="0" key="0" z_index="0"/>
                 </key>
             </mainline>
-            <timeline id="0" name="miningmachine">
+            <timeline id="0" name="kit">
                 <key id="0" spin="0">
-                    <object folder="0" file="1" x="-315.111111" y="320.333333" angle="0"/>
+                    <object folder="0" file="4" x="-438" y="736" angle="0" scale_x="1.5" scale_y="1.5"/>
                 </key>
             </timeline>
         </animation>
     </entity>
     <entity id="2" name="storage">
-        <animation id="0" name="idle" length="1000" interval="100">
+        <animation id="0" name="idle" length="1000">
             <mainline>
                 <key id="0">
-                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="0" name="swap_storage" folder="1" file="0" abs_x="43.75" abs_y="-1.041667" abs_pivot_x="0.727865" abs_pivot_y="0.501437" abs_angle="0" abs_scale_x="1.5" abs_scale_y="1.5" abs_a="1" timeline="0" key="0" z_index="0"/>
                 </key>
             </mainline>
             <timeline id="0" name="swap_storage">
                 <key id="0" spin="0">
-                    <object folder="1" file="0" x="-63.47541" y="56.918033" angle="0"/>
+                    <object folder="1" file="0" x="43.75" y="-1.041667" angle="0" scale_x="1.5" scale_y="1.5"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="3" name="swap_miningfuelmeter">
+        <animation id="0" name="idle" length="1000">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="swap_miningfuelmeter" folder="2" file="0" abs_x="4.157107" abs_y="-1.040767" abs_pivot_x="0.506373" abs_pivot_y="0.4994" abs_angle="0" abs_scale_x="1.5" abs_scale_y="1.5" abs_a="1" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="swap_miningfuelmeter">
+                <key id="0" spin="0">
+                    <object folder="2" file="0" x="4.157107" y="-1.040767" angle="0" scale_x="1.5" scale_y="1.5"/>
                 </key>
             </timeline>
         </animation>

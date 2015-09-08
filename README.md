@@ -9,6 +9,13 @@ To-Do:
 
 
 Ideas:
+- Add upgrades for the Machines
+  - One of the upgrade could be something which tries to automatically unjam a jammed machine once per segment
+  - One could improve the odds to mine higher tier items.
+  - One could increase the amount of items per digging
+  - One could override the behavior of the stuff : instead of digging material it would mainly "dig" mobs
+- Add a new mob : Skeleton
+  - It would pop in the cemetry when a digging machine is placed there 
 
 Approved Ideas:
 - 2 wrenches. 1st is a basic wrench requiring vanilla items to craft. Unjams the machine once. Advanced wrench requires iron ore and unjams the machine 5(?) times.
@@ -51,3 +58,4 @@ Job Done:
 - There is a chance after a successful digging that a cave monster appear when you open the storage (one that could fit in the pipe still)
 - Above function has a chance to "jam" the miner if successful. Uses a wrench (new item) to unjam. 2x chance to jam in the summer.
 - Miner slows down by 40% in the winter.
+- Fueled Component implemented. Mole restore 2 days out of the 5 (50%) or does nothing (40%) or reverse the jam state of the machine (10%)

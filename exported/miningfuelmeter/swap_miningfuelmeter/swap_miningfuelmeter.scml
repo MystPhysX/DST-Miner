@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="b5">
+    <folder id="0" name="/swap_miningfuelmeter_0">
+        <file id="0" name="/swap_miningfuelmeter_0/swap_miningfuelmeter_0.png" width="600" height="600" pivot_x="0.496672" pivot_y="0.5"/>
+    </folder>
+    <folder id="1" name="/swap_miningfuelmeter_1">
+        <file id="0" name="/swap_miningfuelmeter_1/swap_miningfuelmeter_1.png" width="600" height="600" pivot_x="0.496534" pivot_y="0.5"/>
+    </folder>
+    <folder id="2" name="/swap_miningfuelmeter_2">
+        <file id="0" name="/swap_miningfuelmeter_2/swap_miningfuelmeter_2.png" width="600" height="600" pivot_x="0.49658" pivot_y="0.499954"/>
+    </folder>
+    <folder id="3" name="/swap_miningfuelmeter_3">
+        <file id="0" name="/swap_miningfuelmeter_3/swap_miningfuelmeter_3.png" width="600" height="600" pivot_x="0.496584" pivot_y="0.499954"/>
+    </folder>
+    <folder id="4" name="/swap_miningfuelmeter_4">
+        <file id="0" name="/swap_miningfuelmeter_4/swap_miningfuelmeter_4.png" width="600" height="600" pivot_x="0.496637" pivot_y="0.499908"/>
+    </folder>
+    <folder id="5" name="/swap_miningfuelmeter_5">
+        <file id="0" name="/swap_miningfuelmeter_5/swap_miningfuelmeter_5.png" width="600" height="600" pivot_x="0.496534" pivot_y="0.5"/>
+    </folder>
+    <folder id="6" name="/swap_miningfuelmeter_6">
+        <file id="0" name="/swap_miningfuelmeter_6/swap_miningfuelmeter_6.png" width="600" height="600" pivot_x="0.496534" pivot_y="0.5"/>
+    </folder>
+    <folder id="7" name="/swap_miningfuelmeter_7">
+        <file id="0" name="/swap_miningfuelmeter_7/swap_miningfuelmeter_7.png" width="600" height="600" pivot_x="0.496534" pivot_y="0.5"/>
+    </folder>
+    <folder id="8" name="/swap_miningfuelmeter_8">
+        <file id="0" name="/swap_miningfuelmeter_8/swap_miningfuelmeter_8.png" width="600" height="600" pivot_x="0.496534" pivot_y="0.5"/>
+    </folder>
+    <entity id="0" name="swap_miningfuelmeter_0">
+        <animation id="0" name="BUILD" length="1000">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="swap_miningfuelmeter_0" folder="0" file="0" abs_x="1" abs_y="-1" abs_pivot_x="0.496672" abs_pivot_y="0.5" abs_angle="360" abs_scale_x="1.5" abs_scale_y="1.5" abs_a="1" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="swap_miningfuelmeter_0">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" x="1" y="-1" scale_x="1.5" scale_y="1.5"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="1" name="swap_miningfuelmeter_1">
+        <animation id="0" name="BUILD" length="1000">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="swap_miningfuelmeter_1" folder="1" file="0" abs_x="1" abs_y="-1" abs_pivot_x="0.496534" abs_pivot_y="0.5" abs_angle="360" abs_scale_x="1.5" abs_scale_y="1.5" abs_a="1" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="swap_miningfuelmeter_1">
+                <key id="0" spin="0">
+                    <object folder="1" file="0" x="1" y="-1" scale_x="1.5" scale_y="1.5"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="2" name="swap_miningfuelmeter_2">
+        <animation id="0" name="BUILD" length="1000">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="swap_miningfuelmeter_2" folder="2" file="0" abs_x="1" abs_y="-1" abs_pivot_x="0.49658" abs_pivot_y="0.499954" abs_angle="360" abs_scale_x="1.5" abs_scale_y="1.5" abs_a="1" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="swap_miningfuelmeter_2">
+                <key id="0" spin="0">
+                    <object folder="2" file="0" x="1" y="-1" scale_x="1.5" scale_y="1.5"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="3" name="swap_miningfuelmeter_3">
+        <animation id="0" name="BUILD" length="1000">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="swap_miningfuelmeter_3" folder="3" file="0" abs_x="1" abs_y="-1" abs_pivot_x="0.496584" abs_pivot_y="0.499954" abs_angle="360" abs_scale_x="1.5" abs_scale_y="1.5" abs_a="1" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="swap_miningfuelmeter_3">
+                <key id="0" spin="0">
+                    <object folder="3" file="0" x="1" y="-1" scale_x="1.5" scale_y="1.5"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="4" name="swap_miningfuelmeter_4">
+        <animation id="0" name="BUILD" length="1000">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="swap_miningfuelmeter_4" folder="4" file="0" abs_x="1" abs_y="-1" abs_pivot_x="0.496637" abs_pivot_y="0.499908" abs_angle="360" abs_scale_x="1.5" abs_scale_y="1.5" abs_a="1" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="swap_miningfuelmeter_4">
+                <key id="0" spin="0">
+                    <object folder="4" file="0" x="1" y="-1" scale_x="1.5" scale_y="1.5"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="5" name="swap_miningfuelmeter_5">
+        <animation id="0" name="BUILD" length="1000">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="swap_miningfuelmeter_5" folder="5" file="0" abs_x="1" abs_y="-1" abs_pivot_x="0.496534" abs_pivot_y="0.5" abs_angle="360" abs_scale_x="1.5" abs_scale_y="1.5" abs_a="1" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="swap_miningfuelmeter_5">
+                <key id="0" spin="0">
+                    <object folder="5" file="0" x="1" y="-1" scale_x="1.5" scale_y="1.5"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="6" name="swap_miningfuelmeter_6">
+        <animation id="0" name="BUILD" length="1000">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="swap_miningfuelmeter_6" folder="6" file="0" abs_x="1" abs_y="-1" abs_pivot_x="0.496534" abs_pivot_y="0.5" abs_angle="360" abs_scale_x="1.5" abs_scale_y="1.5" abs_a="1" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="swap_miningfuelmeter_6">
+                <key id="0" spin="0">
+                    <object folder="6" file="0" x="1" y="-1" scale_x="1.5" scale_y="1.5"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="7" name="swap_miningfuelmeter_7">
+        <animation id="0" name="BUILD" length="1000">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="swap_miningfuelmeter_7" folder="7" file="0" abs_x="1" abs_y="-1" abs_pivot_x="0.496534" abs_pivot_y="0.5" abs_angle="360" abs_scale_x="1.5" abs_scale_y="1.5" abs_a="1" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="swap_miningfuelmeter_7">
+                <key id="0" spin="0">
+                    <object folder="7" file="0" x="1" y="-1" scale_x="1.5" scale_y="1.5"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="8" name="swap_miningfuelmeter_8">
+        <animation id="0" name="BUILD" length="1000">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" name="swap_miningfuelmeter_8" folder="8" file="0" abs_x="1" abs_y="-1" abs_pivot_x="0.496534" abs_pivot_y="0.5" abs_angle="360" abs_scale_x="1.5" abs_scale_y="1.5" abs_a="1" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="swap_miningfuelmeter_8">
+                <key id="0" spin="0">
+                    <object folder="8" file="0" x="1" y="-1" scale_x="1.5" scale_y="1.5"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+</spriter_data>
