@@ -6,6 +6,7 @@ local function onjammed(self, jammed)
 		
 		if self.inst.components.machine then
 			self.inst.components.machine:TurnOff()
+			self.inst.AnimState:PlayAnimation("jammed", true)
 		end
 		
 		if not self.inst:HasTag("cooldown") then
