@@ -22,7 +22,7 @@ client_only_mod = false
 --These tags allow the server running this mod to be found with filters from the server listing screen
 server_filter_tags = {"machine", "mining"}
 
--- priority = 0
+priority = 0.000036082015
 
 configuration_options =
 {

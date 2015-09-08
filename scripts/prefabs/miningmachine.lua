@@ -4,6 +4,8 @@ local assets=
 	
 	Asset("ANIM", "anim/ui_mms.zip"),
 	
+	Asset("ANIM", "anim/swap_miningfuelmeter.zip"),
+	
 	Asset("ATLAS", "images/inventory/miningmachinekit.xml"),
     Asset("IMAGE", "images/inventory/miningmachinekit.tex"),
 }
@@ -60,72 +62,88 @@ end
 
 local function DiggingJob(inst)
 	print("*********** I start the digging action ***********")
+	print("Current Fuel Level = ", inst.components.fueled.currentfuel)
 	
-	if math.random() < 0.7 then -- make the success odd configurable later
+	local success_draw = math.random()
+	if success_draw < 0.7 then -- make the success odd configurable later
 		print("I digged successfully! :-)")
 		
 		local tiletype = TheWorld.Map:GetTileAtPoint(inst.Transform:GetWorldPosition())
 		print("Tile Type is ", tiletype)
 
-		local tier_draw = math.random()
-		local tier_loot
-		
-		if tier_draw <= MMLOOTTABLE["BIOME_"..tiletype].TIERONE.tierthreshold then
-			tier_loot = "TIERONE"
-		elseif tier_draw > MMLOOTTABLE["BIOME_"..tiletype].TIERONE.tierthreshold and tier_draw <= MMLOOTTABLE["BIOME_"..tiletype].TIERTWO.tierthreshold then
-			tier_loot = "TIERTWO"	
+		local itemnumber = 0
+		if success_draw < 0.175 then
+			itemnumber = 1
+		elseif success_draw > 0.525 then
+			itemnumber = 3		
 		else
-			tier_loot = "TIERTHREE"		
+			itemnumber = 2		
 		end
 		
-		print("Random Tier Drawing = ", tier_draw, " <-> ", tier_loot)
+		print("Amount of item to dig : ", itemnumber)
 		
-		for n, m in pairs(MMLOOTTABLE["BIOME_"..tiletype][tier_loot]) do
-			if n ~= "tierthreshold" then
-				local current_minodd = 0
-				for k, v in pairs(MMLOOTTABLE["BIOME_"..tiletype][tier_loot]) do
-					if k ~= "tierthreshold" and v > current_minodd and v < m then
-						current_minodd = v
+		for n = 1, itemnumber, 1 do
+			print("----> ITEM # ", n)
+			local tier_draw = math.random()
+			local tier_loot
+			
+			if tier_draw <= MMLOOTTABLE["BIOME_"..tiletype].TIERONE.tierthreshold then
+				tier_loot = "TIERONE"
+			elseif tier_draw > MMLOOTTABLE["BIOME_"..tiletype].TIERONE.tierthreshold and tier_draw <= MMLOOTTABLE["BIOME_"..tiletype].TIERTWO.tierthreshold then
+				tier_loot = "TIERTWO"	
+			else
+				tier_loot = "TIERTHREE"		
+			end
+			
+			print("Random Tier Drawing = ", tier_draw, " <-> ", tier_loot)
+			
+			for n, m in pairs(MMLOOTTABLE["BIOME_"..tiletype][tier_loot]) do
+				if n ~= "tierthreshold" then
+					local current_minodd = 0
+					for k, v in pairs(MMLOOTTABLE["BIOME_"..tiletype][tier_loot]) do
+						if k ~= "tierthreshold" and v > current_minodd and v < m then
+							current_minodd = v
+						end
+					end
+					
+					print("Probability to dig ", n, " = ", (m - current_minodd)  * 100, "%")
+				end
+			end
+			
+			local item_draw = math.random()
+			local closest_th = 2
+			local item_to_dig = nil
+			for k, v in pairs(MMLOOTTABLE["BIOME_"..tiletype][tier_loot]) do
+				if k ~= "tierthreshold" and v < closest_th and v > item_draw then
+					closest_th = v
+					item_to_dig = k
+				end
+			end
+			
+			print("---> Item to Dig  ", item_to_dig or "NOTHING!", " (draw = ", item_draw, ")")
+			
+			local mms = inst.mmstorage
+			
+			if item_to_dig then
+				print("------> Storage = ", inst.mmstorage, "(found the container component : ", inst.mmstorage.components.container, ")")
+				-- inst.components.lootdropper:SpawnLootPrefab(item_to_dig)
+				local item_to_store = SpawnPrefab(item_to_dig)
+				local storeincontainer = mms.components.container:GiveItem(item_to_store, nil, nil, false)
+			end
+			
+			local chestmob_draw = math.random()
+			if mms.components.mnzmachines.surpriseinchest and chestmob_draw < TUNING.CHESTMOBSODDS then
+				closest_th = 2
+				local mob_to_store = nil
+				for k, v in pairs(MMLOOTTABLE["BIOME_"..tiletype]["CHESTMOBS"]) do
+					if v < closest_th and v > chestmob_draw/TUNING.CHESTMOBSODDS then -- the division by the odd is to bring it back to a base of 1
+						closest_th = v
+						mob_to_store = k
 					end
 				end
-				
-				print("Probability to dig ", n, " = ", (m - current_minodd)  * 100, "%")
+				print("I brought a surprise with the loot : ", mob_to_store)
+				FillStorageWithSurpriseMob(inst, mob_to_store)
 			end
-		end
-		
-		local item_draw = math.random()
-		local closest_th = 2
-		local item_to_dig = nil
-		for k, v in pairs(MMLOOTTABLE["BIOME_"..tiletype][tier_loot]) do
-			if k ~= "tierthreshold" and v < closest_th and v > item_draw then
-				closest_th = v
-				item_to_dig = k
-			end
-		end
-		
-		print("---> Item to Dig  ", item_to_dig or "NOTHING!", " (draw = ", item_draw, ")")
-		
-		local mms = inst.mmstorage
-		
-		if item_to_dig then
-			print("------> Storage = ", inst.mmstorage, "(found the container component : ", inst.mmstorage.components.container, ")")
-			-- inst.components.lootdropper:SpawnLootPrefab(item_to_dig)
-			local item_to_store = SpawnPrefab(item_to_dig)
-			local storeincontainer = mms.components.container:GiveItem(item_to_store, nil, nil, false)
-		end
-		
-		local chestmob_draw = math.random()
-		if mms.components.mnzmachines.surpriseinchest and chestmob_draw < TUNING.CHESTMOBSODDS then
-			closest_th = 2
-			local mob_to_store = nil
-			for k, v in pairs(MMLOOTTABLE["BIOME_"..tiletype]["CHESTMOBS"]) do
-				if v < closest_th and v > chestmob_draw/TUNING.CHESTMOBSODDS then -- the division by the odd is to bring it back to a base of 1
-					closest_th = v
-					mob_to_store = k
-				end
-			end
-			print("I brought a surprise with the loot : ", mob_to_store)
-			FillStorageWithSurpriseMob(inst, mob_to_store)
 		end
 	else
 		if TheWorld.state.season == "summer" then
@@ -164,6 +182,7 @@ local function TurnOff(inst, instant)
 	StopDigging(inst)
 	
 	inst.components.fueled:StopConsuming()
+	inst.AnimState:PlayAnimation("idle")
 	
 	-- inst.sg:GoToState("turn_off")
 end
@@ -176,6 +195,7 @@ local function TurnOn(inst, instant)
 	end
 	
 	inst.components.fueled:StartConsuming()
+	inst.AnimState:PlayAnimation("mining")
 	
 	-- inst.sg:GoToState("turn_on")
 end
@@ -195,9 +215,22 @@ local function CheckForEscapeMobs(inst)
 				mob_to_esc = k
 			end
 		end
-		print("A Mob Escaped! : ", mob_to_esc)
-		local escmob = SpawnPrefab(mob_to_esc)
-		escmob.Transform:SetPosition(inst.Transform:GetWorldPosition())
+		
+		local instx, insty, instz = inst.Transform:GetWorldPosition()
+				
+		local nearbyrocky = TheSim:FindEntities(instx, insty, instz, 100, { "rocky" })
+		for k, v in pairs(nearbyrocky) do
+			if v:IsValid() then
+				mob_to_esc = nil
+			end
+		end
+		
+		print("A Mob Escaped! : ", mob_to_esc or "UNAVAILABLE")
+		
+		if mob_to_esc then
+			local escmob = SpawnPrefab(mob_to_esc)
+			escmob.Transform:SetPosition(instx + 3, insty + 3, instz)
+		end
 	end
 end
 
@@ -232,9 +265,10 @@ local function OnFuelEmpty(inst)
     inst.components.machine:TurnOff()
 end
 
-local function OnAddFuel(inst)
-    if inst.on == false then
-        inst.components.machine:TurnOn()
+local function OnFuelSectionChange(new, old, inst)
+    if inst._fuellevel ~= new then
+        inst._fuellevel = new
+        inst.AnimState:OverrideSymbol("swap_miningfuelmeter", "swap_miningfuelmeter", "swap_miningfuelmeter_"..new)
     end
 end
 
@@ -244,6 +278,7 @@ end
         -- inst.AnimState:OverrideSymbol("swap_meter", "firefighter_meter", new)
     -- end
 -- end
+
 
 local function miningmachinefn()
 	local inst = CreateEntity()
@@ -258,7 +293,8 @@ local function miningmachinefn()
 	
 	inst.AnimState:SetBank("miningmachine")
 	inst.AnimState:SetBuild("miningmachine")
-	inst.AnimState:PlayAnimation("idle")
+	inst.AnimState:PlayAnimation("mining")
+    inst.AnimState:OverrideSymbol("swap_miningfuelmeter", "swap_miningfuelmeter", "swap_miningfuelmeter_8")
 	
 	inst.AnimState:OverrideSymbol("swap_storage", "", "")
 	
@@ -285,11 +321,10 @@ local function miningmachinefn()
 	inst.components.fueled.fueltype = FUELTYPE.BURNABLE
 	inst.components.fueled.secondaryfueltype = FUELTYPE.CHEMICAL
 	inst.components.fueled.bonusmult = 3.5
-	inst.components.fueled:SetSections(10)
-	-- inst.components.fueled:SetSectionCallback(OnFuelSectionChange)
+	inst.components.fueled:SetSections(8)
+	inst.components.fueled:SetSectionCallback(OnFuelSectionChange)
 	inst.components.fueled.maxfuel = TUNING.TOTAL_DAY_TIME*5
-    inst.components.fueled:InitializeFuelLevel(TUNING.TOTAL_DAY_TIME*5)
-	inst.components.fueled.OnSave = OnSaveFueled
+    inst.components.fueled:InitializeFuelLevel(0)
 	
 	inst:AddComponent("lootdropper")
 	
@@ -303,7 +338,7 @@ local function miningmachinefn()
 	inst:AddComponent("mnzmachines")
 	inst.leaktask = inst:DoPeriodicTask(TUNING.TOTAL_DAY_TIME/4, CheckForEscapeMobs) -- A mob can escape 4 times per day. This value should be tuned (?)
 	
-	inst:ListenForEvent("seasonChange", OnSeasonChange)
+	inst:WatchWorldState("season", OnSeasonChange)
 	
 	inst.components.machine:TurnOn()
 	
