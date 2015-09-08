@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="r4.1">
+    <folder id="0" name="ironore">
+        <file id="0" name="ironore/iron.png" width="400" height="231" pivot_x="0" pivot_y="1"/>
+    </folder>
+    <folder id="1">
+        <file id="0" name="shadow.png" width="64" height="29" pivot_x="0" pivot_y="1"/>
+    </folder>
+    <entity id="0" name="ironore">
+        <animation id="0" name="idle" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="1" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="0" z_index="1"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="iron">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" x="-60.920373" y="56.883051" angle="0" scale_x="0.3025" scale_y="0.3025"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="shadow">
+                <key id="0" spin="0">
+                    <object folder="1" file="0" x="-51.022621" y="14.141823" angle="0" scale_x="1.921782" scale_y="1.422419"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+</spriter_data>

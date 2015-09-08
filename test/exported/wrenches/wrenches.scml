@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="r4.1">
+    <folder id="0" name="swap_ironwrench/swap_ironwrench">
+        <file id="0" name="swap_ironwrench/swap_ironwrench/swap_ironwrench.png" width="198" height="198" pivot_x="0" pivot_y="1"/>
+    </folder>
+    <folder id="1">
+        <file id="0" name="shadow.png" width="218" height="96" pivot_x="0" pivot_y="1"/>
+    </folder>
+    <folder id="2" name="swap_ironwrench/swap_crappywrench">
+        <file id="0" name="swap_ironwrench/swap_crappywrench/swap_crappywrench.png" width="198" height="198" pivot_x="0" pivot_y="1"/>
+    </folder>
+    <entity id="0" name="ironwrench">
+        <animation id="0" name="idle" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="0" z_index="1"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="swap_ironwrench">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" x="135.335529" y="69.836775" angle="212.902742"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="shadow">
+                <key id="0" spin="0">
+                    <object folder="1" file="0" x="-106.959163" y="81.923769" angle="0" scale_x="1.2" scale_y="1.2"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="1" name="crappywrench">
+        <animation id="0" name="idle" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="0" z_index="1"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="swap_ironwrench">
+                <key id="0" spin="0">
+                    <object folder="2" file="0" x="135.335529" y="69.836775" angle="212.902742"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="shadow">
+                <key id="0" spin="0">
+                    <object folder="1" file="0" x="-106.959163" y="81.923769" angle="0" scale_x="1.2" scale_y="1.2"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+</spriter_data>
