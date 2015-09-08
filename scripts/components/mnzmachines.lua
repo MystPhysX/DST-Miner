@@ -1,19 +1,20 @@
 local function onjammed(self, jammed)
-	if jammed then
+	if jammed and self.inst.components.machine then
 		if not self.inst:HasTag("jammed") then
 			self.inst:AddTag("jammed")
 		end
+		
+		if self.inst.components.machine then
+			self.inst.components.machine:TurnOff()
+		end
+		
 		if not self.inst:HasTag("cooldown") then
 			self.inst:DoTaskInTime(0.6, function () -- to prevent a DoTaskInTime of the TunOff function to interfere after 0.5 seconds, I execute it after 0.6 seconds
 										self.inst:AddTag("cooldown") -- artificially set it in cooldown so player cannot interact with the machine anymore (see componentaction for machine for more info)
 									end
 							)
 		end
-		
-		if self.inst.components.machine then
-			self.inst.components.machine:TurnOff()
-		end
-	else
+	elseif not jammed and self.inst.components.machine then
 		if self.inst:HasTag("jammed") then
 			self.inst:RemoveTag("jammed")
 		end
@@ -40,6 +41,28 @@ nil,
 {
 	jammed = onjammed
 })
+
+function Mnzmachines:TakeSpecialFuelItem(item)
+	if self.inst.components.fueled then
+		local oldsection = self.inst.components.fueled:GetCurrentSection()
+
+		local mole_draw = math.random()
+		
+		if mole_draw < 0.5 then
+			self.inst.components.fueled:DoDelta(2*TUNING.TOTAL_DAY_TIME)
+			print("Successfully added a mole for fuel!")
+		elseif mole_draw > 0.9 then
+			self.jammed = not self.jammed
+			print("Unwilling mole subject : Machine State Inverted!")
+		else
+			print("Added a mole for fuel was unsuccessful")
+		end
+			
+		item:Remove()
+
+		return true
+	end
+end
 
 function Mnzmachines:OnRemoveFromEntity()
 	self.surpriseinchest = nil

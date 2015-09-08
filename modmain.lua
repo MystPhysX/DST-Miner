@@ -111,7 +111,7 @@ REPAIRMM.fn = function(act)
 
 	print("target is ", target or "UNAVAILABLE", "and invobj is ", invobj or "UNAVAILABLE")
 	print("target is jammed : ", target:HasTag("jammed"), " | target is artificially in cooldown : ", target:HasTag("cooldown"))
-	if invobj and target and target:HasTag("jammed") and target:HasTag("cooldown") then
+	if invobj and target and target:HasTag("jammed") then
 		print("I unjam the machine!")
 		target.components.mnzmachines.jammed = false
 		invobj.components.finiteuses:Use()
@@ -133,9 +133,41 @@ end
 
 AddAction(REPAIRMM)
 
-AddStategraphActionHandler("wilson", ActionHandler(ACTIONS.REPAIRMM, "dolongaction"))
+local ADDSPECIALFULEMM = GLOBAL.Action(	6,		-- priority
+								nil,	-- instant (set to not instant)
+								nil,	-- right mouse button
+								nil,	-- distance check
+								nil,	-- ghost valid (set to not ghost valid)
+								nil,	-- ghost exclusive
+								nil,	-- can force action
+								nil)	-- Range check function
+ADDSPECIALFULEMM.strfn = function(act)
+	if act.invobject.prefab == "mole" then
+		return "ADDMOLE"
+	end
+end
+ADDSPECIALFULEMM.id = "ADDSPECIALFULEMM"
+ADDSPECIALFULEMM.fn = function(act)
+    if act.doer.components.inventory then
+        local fuel = act.doer.components.inventory:RemoveItem(act.invobject)
+        if fuel then
+            if act.target.components.mnzmachines:TakeSpecialFuelItem(fuel) then
+                return true
+            else
+                --print("False")
+                act.doer.components.inventory:GiveItem(fuel)
+            end
+        end
+    end
+end
 
+AddAction(ADDSPECIALFULEMM)
+
+AddStategraphActionHandler("wilson", ActionHandler(ACTIONS.REPAIRMM, "dolongaction"))
 AddStategraphActionHandler("wilson_client", ActionHandler(ACTIONS.REPAIRMM, "dolongaction"))
+
+AddStategraphActionHandler("wilson", ActionHandler(ACTIONS.ADDSPECIALFULEMM, "doshortaction"))
+AddStategraphActionHandler("wilson_client", ActionHandler(ACTIONS.ADDSPECIALFULEMM, "doshortaction"))
 
 local function MnZEquippedCA(inst, doer, target, actions, right)
     if inst:HasTag("MnZmachines") and inst:HasTag("wrench") and target:HasTag("MnZmachines") and
@@ -146,7 +178,9 @@ local function MnZEquippedCA(inst, doer, target, actions, right)
 end
 
 local function MnZUseitemCA(inst, doer, target, actions, right)
-    if inst:HasTag("MnZmachines") and inst:HasTag("wrench") and target:HasTag("MnZmachines") and
+	if inst.prefab == "mole" and target:HasTag("MnZmachines") and not target:HasTag("kit") then
+		table.insert(actions, ACTIONS.ADDSPECIALFULEMM)
+    elseif inst:HasTag("MnZmachines") and inst:HasTag("wrench") and target:HasTag("MnZmachines") and
 		(target:HasTag("jammed") or (target:HasTag("kit") and target:HasTag("structure")))
 		then
 			table.insert(actions, ACTIONS.REPAIRMM)
@@ -161,6 +195,10 @@ GLOBAL.STRINGS.ACTIONS["REPAIRMM"] = {
 	MOUNT = "Mount the Mining Machine",
 }
 
+GLOBAL.STRINGS.ACTIONS["ADDSPECIALFULEMM"] = {
+	ADDMOLE = "Funny Action Desc Here",
+}
+
 local base_deploystrfn = ACTIONS.DEPLOY.strfn
 
 ACTIONS.DEPLOY.strfn = function(act)
@@ -170,3 +208,8 @@ ACTIONS.DEPLOY.strfn = function(act)
 end
 
 GLOBAL.STRINGS.ACTIONS.DEPLOY["MMKIT"] = "Deploy the Mining Machine Kit"
+
+AddPrefabPostInit("mole", function(prefab)
+							prefab:AddComponent("mnzmachines")	
+						end
+)
