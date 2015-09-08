@@ -4,6 +4,8 @@ local assets=
 	
 	Asset("ANIM", "anim/ui_mms.zip"),
 	
+	Asset("ANIM", "anim/swap_miningfuelmeter.zip"),
+	
 	Asset("ATLAS", "images/inventory/miningmachinekit.xml"),
     Asset("IMAGE", "images/inventory/miningmachinekit.tex"),
 }
@@ -180,6 +182,7 @@ local function TurnOff(inst, instant)
 	StopDigging(inst)
 	
 	inst.components.fueled:StopConsuming()
+	inst.AnimState:PlayAnimation("idle")
 	
 	-- inst.sg:GoToState("turn_off")
 end
@@ -192,6 +195,7 @@ local function TurnOn(inst, instant)
 	end
 	
 	inst.components.fueled:StartConsuming()
+	inst.AnimState:PlayAnimation("mining")
 	
 	-- inst.sg:GoToState("turn_on")
 end
@@ -261,9 +265,10 @@ local function OnFuelEmpty(inst)
     inst.components.machine:TurnOff()
 end
 
-local function OnAddFuel(inst)
-    if not inst:HasTag("jammed") and inst.on == false then
-        inst.components.machine:TurnOn()
+local function OnFuelSectionChange(new, old, inst)
+    if inst._fuellevel ~= new then
+        inst._fuellevel = new
+        inst.AnimState:OverrideSymbol("swap_miningfuelmeter", "swap_miningfuelmeter", "swap_miningfuelmeter_"..new)
     end
 end
 
@@ -288,7 +293,8 @@ local function miningmachinefn()
 	
 	inst.AnimState:SetBank("miningmachine")
 	inst.AnimState:SetBuild("miningmachine")
-	inst.AnimState:PlayAnimation("idle")
+	inst.AnimState:PlayAnimation("mining")
+    inst.AnimState:OverrideSymbol("swap_miningfuelmeter", "swap_miningfuelmeter", "swap_miningfuelmeter_8")
 	
 	inst.AnimState:OverrideSymbol("swap_storage", "", "")
 	
@@ -315,11 +321,10 @@ local function miningmachinefn()
 	inst.components.fueled.fueltype = FUELTYPE.BURNABLE
 	inst.components.fueled.secondaryfueltype = FUELTYPE.CHEMICAL
 	inst.components.fueled.bonusmult = 3.5
-	inst.components.fueled:SetSections(10)
-	-- inst.components.fueled:SetSectionCallback(OnFuelSectionChange)
+	inst.components.fueled:SetSections(8)
+	inst.components.fueled:SetSectionCallback(OnFuelSectionChange)
 	inst.components.fueled.maxfuel = TUNING.TOTAL_DAY_TIME*5
     inst.components.fueled:InitializeFuelLevel(0)
-	-- inst.components.fueled.OnSave = OnSaveFueled
 	
 	inst:AddComponent("lootdropper")
 	
@@ -333,7 +338,7 @@ local function miningmachinefn()
 	inst:AddComponent("mnzmachines")
 	inst.leaktask = inst:DoPeriodicTask(TUNING.TOTAL_DAY_TIME/4, CheckForEscapeMobs) -- A mob can escape 4 times per day. This value should be tuned (?)
 	
-	inst:ListenForEvent("seasonChange", OnSeasonChange)
+	inst:WatchWorldState("season", OnSeasonChange)
 	
 	inst.components.machine:TurnOn()
 	
