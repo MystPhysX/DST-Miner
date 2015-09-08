@@ -81,6 +81,7 @@ local function DiggingJob(inst)
 		end
 		
 		print("Amount of item to dig : ", itemnumber)
+		local mms = inst.mmstorage
 		
 		for n = 1, itemnumber, 1 do
 			print("----> ITEM # ", n)
@@ -121,8 +122,7 @@ local function DiggingJob(inst)
 			end
 			
 			print("---> Item to Dig  ", item_to_dig or "NOTHING!", " (draw = ", item_draw, ")")
-			
-			local mms = inst.mmstorage
+
 			
 			if item_to_dig then
 				print("------> Storage = ", inst.mmstorage, "(found the container component : ", inst.mmstorage.components.container, ")")
